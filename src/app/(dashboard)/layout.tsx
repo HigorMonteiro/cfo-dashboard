@@ -17,7 +17,7 @@ export default async function DashboardLayout({
 
   return (
     <SidebarProvider defaultOpen={defaultOpen}>
-      <div className="flex min-h-screen">
+      <div className="flex w-full">
         <AppSidebar />
         <main className="w-full">
           <Navbar />

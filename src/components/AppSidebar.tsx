@@ -9,6 +9,12 @@ import {
   Plus,
   Projector,
   ChevronDown,
+  Wallet,
+  Upload,
+  FileType,
+  CheckCircle,
+  AlertCircle,
+  X,
 } from "lucide-react";
 import {
   Sidebar,
@@ -45,13 +51,18 @@ import {
 const items = [
   {
     title: "Home",
-    url: "/",
+    url: "/dashboard",
     icon: Home,
   },
   {
-    title: "Inbox",
-    url: "#",
-    icon: Inbox,
+    title: "Finance",
+    icon: Wallet,
+    url: "/finance",
+  },
+  {
+    title: "Upload Statements",
+    url: "/finance/upload",
+    icon: Upload,
   },
   {
     title: "Calendar",
@@ -79,7 +90,7 @@ const AppSidebar = () => {
             <SidebarMenuButton asChild>
               <Link href="/">
                 <Image src="/logo.svg" alt="logo" width={20} height={20} />
-                <span>Lama Dev</span>
+                <span>CFO AI</span>
               </Link>
             </SidebarMenuButton>
           </SidebarMenuItem>
