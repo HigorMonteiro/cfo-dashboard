@@ -5,7 +5,6 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { loginSchema } from "@/lib/validations/auth";
-import { authService } from "@/lib/services/auth.service";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -20,7 +19,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Eye, EyeOff } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { toast } from "sonner";
+import { authService } from "@/services/auth.service";
 
 /**
  * Login page component that handles user authentication
@@ -47,28 +46,20 @@ export default function LoginPage() {
   const onSubmit = async (values: z.infer<typeof loginSchema>) => {
     try {
       setIsLoading(true);
-      const response = await authService.login(values);
+      const success = await authService.login(values);
       
-      if (response.success) {
-        toast.success(response.message);
-        // Store token and user data in your preferred state management solution
-        // For example: localStorage, cookies, or global state
-        localStorage.setItem("token", response.token!);
-        localStorage.setItem("user", JSON.stringify(response.user));
-        router.push("/dashboard");
-      } else {
-        toast.error(response.message);
+      if (success) {
+        router.push("/finance");
       }
     } catch (error) {
       console.error("Login failed:", error);
-      toast.error("An unexpected error occurred. Please try again.");
     } finally {
       setIsLoading(false);
     }
   };
 
   return (
-    <div className=" flex w-full items-center justify-center bg-background p-4">
+    <div className="flex w-full items-center justify-center bg-background p-4">
       <Card className="w-full max-w-md">
         <CardHeader className="space-y-2 text-center">
           <CardTitle className="text-3xl font-bold">Welcome back</CardTitle>
@@ -141,7 +132,7 @@ export default function LoginPage() {
                   href="/register"
                   className="text-sm text-muted-foreground hover:text-primary"
                 >
-                  Don't have an account?
+                  Don&apos;t have an account?
                 </Link>
               </div>
               <Button type="submit" className="w-full" disabled={isLoading}>

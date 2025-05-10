@@ -1,6 +1,5 @@
 import {
   Home,
-  Inbox,
   Calendar,
   Search,
   Settings,
@@ -11,10 +10,6 @@ import {
   ChevronDown,
   Wallet,
   Upload,
-  FileType,
-  CheckCircle,
-  AlertCircle,
-  X,
 } from "lucide-react";
 import {
   Sidebar,
