@@ -24,7 +24,7 @@ export default function AdminPage() {
             </CardHeader>
             <CardContent>
               <p className="text-muted-foreground">
-                Welcome to the admin dashboard, {user?.name}. You have full administrative access.
+                Welcome to the admin dashboard
               </p>
             </CardContent>
           </Card>

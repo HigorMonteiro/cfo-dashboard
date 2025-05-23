@@ -1,4 +1,5 @@
 import React from 'react';
+import Image from 'next/image';
 
 /**
  * LoginSVG component that renders a login illustration
@@ -6,11 +7,12 @@ import React from 'react';
  */
 const LoginSVG: React.FC = () => {
   return (
-    <img 
+    <Image 
       src="/login.svg" 
       alt="Login illustration"
-      width="2500"
-      height="1664"
+      width={2500}
+      height={1664}
+      priority
     />
   );
 };

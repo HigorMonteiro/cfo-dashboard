@@ -1,6 +1,6 @@
 // src/hooks/useFinancialData.ts
 import { useState, useEffect } from 'react';
-import { FinancialSummary, Transaction } from '@/types/finance';
+import { FinancialSummary } from '@/types/finance';
 
 /**
  * Custom hook to manage financial data

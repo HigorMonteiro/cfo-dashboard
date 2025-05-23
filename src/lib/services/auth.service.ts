@@ -48,10 +48,11 @@ export class AuthService implements IAuthService {
       };
 
       return mockResponse;
-    } catch (error) {
+    } catch (err) {
+      console.error('Authentication error:', err);
       return {
         success: false,
-        message: "Authentication failed",
+        message: err instanceof Error ? err.message : "Authentication failed",
       };
     }
   }

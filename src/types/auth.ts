@@ -14,14 +14,19 @@ export interface AuthResponseDTO {
   user: UserDTO;
 }
 
+export interface RoleDetails {
+  permissions: string[];
+  description: string;
+}
+
 export interface UserDTO {
   id: string;
   username: string;
   email: string;
   user_type: string;
   role: string | null;
-  role_details: any | null;
-  active_subscription: any | null;
+  role_details: RoleDetails | null;
+  active_subscription: Subscription | null;
   created_at: string;
   updated_at: string;
 }
@@ -43,8 +48,8 @@ export interface User {
   email: string;
   user_type: string;
   role: UserRole | null;
-  role_details: any | null;
-  active_subscription: any | null;
+  role_details: RoleDetails | null;
+  active_subscription: Subscription | null;
   created_at: string;
   updated_at: string;
 }

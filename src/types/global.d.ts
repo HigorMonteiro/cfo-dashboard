@@ -1,22 +1,24 @@
 import { ReactNode } from 'react';
+import { Control, FieldValues, Path } from 'react-hook-form';
 
 declare global {
   namespace JSX {
     interface IntrinsicElements {
-      [elemName: string]: any;
+      [elemName: string]: React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement>;
     }
   }
 }
 
-export interface FormFieldProps {
-  control: any;
-  name: string;
-  render: (props: { field: any }) => ReactNode;
+export interface FormFieldProps<T extends FieldValues> {
+  control: Control<T>;
+  name: Path<T>;
+  render: (props: { field: { onChange: (value: unknown) => void; value: unknown } }) => ReactNode;
 }
 
 export interface FormProps {
   children: ReactNode;
-  [key: string]: any;
+  onSubmit?: (data: unknown) => void;
+  className?: string;
 }
 
 export interface FormItemProps {
@@ -74,5 +76,13 @@ export interface InputProps {
   placeholder?: string;
   className?: string;
   disabled?: boolean;
-  [key: string]: any;
+  value?: string | number;
+  onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  name?: string;
+  required?: boolean;
+  min?: number;
+  max?: number;
+  step?: number;
+  pattern?: string;
+  title?: string;
 } 

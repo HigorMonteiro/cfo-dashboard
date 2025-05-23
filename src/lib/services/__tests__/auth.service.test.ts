@@ -37,7 +37,7 @@ describe("AuthService", () => {
       };
 
       // Mock the service to throw an error
-      jest.spyOn(authService as any, "login").mockRejectedValueOnce(new Error("Authentication failed"));
+      jest.spyOn(authService, "login").mockRejectedValueOnce(new Error("Authentication failed"));
 
       // Act
       const response = await authService.login(credentials);

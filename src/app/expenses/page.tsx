@@ -14,11 +14,11 @@ import { useToast } from '@/hooks/use-toast';
 
 /**
  * Main expense management page component
+ * @returns {JSX.Element} The expenses page component
  */
 export default function ExpensesPage() {
-  const [expenses, setExpenses] = useState<Expense[]>([]);
+  const [expenses] = useState<Expense[]>([]);
   const [filters, setFilters] = useState<ExpenseFilters>({});
-  const [loading, setLoading] = useState(false);
   const { toast } = useToast();
   const expenseService = new ExpenseService();
 
@@ -33,7 +33,7 @@ export default function ExpensesPage() {
    * Handles the editing of an existing expense
    * @param expense - The expense to edit
    */
-  const handleEditExpense = async (expense: Expense) => {
+  const handleEditExpense = async () => {
     // TODO: Implement expense editing modal/form
   };
 
@@ -49,7 +49,7 @@ export default function ExpensesPage() {
         description: 'Expense deleted successfully',
       });
       // Refresh expenses list
-    } catch (error) {
+    } catch {
       toast({
         title: 'Error',
         description: 'Failed to delete expense',
@@ -114,7 +114,7 @@ export default function ExpensesPage() {
                       <Button
                         variant="outline"
                         size="sm"
-                        onClick={() => handleEditExpense(row.original)}
+                        onClick={() => handleEditExpense()}
                       >
                         Edit
                       </Button>

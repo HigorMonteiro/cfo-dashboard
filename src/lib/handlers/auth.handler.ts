@@ -1,5 +1,5 @@
 import { authService } from "@/services/auth.service";
-import { LoginDTO } from "@/types/auth";
+import { LoginDTO, User } from "@/types/auth";
 import { toast } from "sonner";
 
 /**
@@ -81,9 +81,9 @@ export class AuthHandler {
 
   /**
    * Gets current user data
-   * @returns {any} User data or null
+   * @returns {User | null} User data or null
    */
-  static getCurrentUser(): any {
+  static getCurrentUser(): User | null {
     const userData = localStorage.getItem("user");
     return userData ? JSON.parse(userData) : null;
   }

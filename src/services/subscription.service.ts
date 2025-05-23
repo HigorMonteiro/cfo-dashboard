@@ -54,7 +54,8 @@ class SubscriptionService {
     try {
       const subscription = await this.getUserSubscription(userId);
       return subscription.status === SubscriptionStatus.ACTIVE;
-    } catch (error) {
+    } catch (err) {
+      console.error('Error checking active subscription:', err);
       return false;
     }
   }

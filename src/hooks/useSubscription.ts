@@ -1,6 +1,6 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { subscriptionService } from '@/services/subscription.service';
-import { Subscription, SubscriptionStatus } from '@/types/auth';
+import { SubscriptionStatus } from '@/types/auth';
 import { useAuth } from './useAuth';
 
 /**

@@ -10,6 +10,7 @@ export class ExpenseService {
    * @returns Promise with the list of expenses
    */
   async getExpenses(filters?: ExpenseFilters): Promise<Expense[]> {
+    console.log('Fetching expenses with filters:', filters);
     // TODO: Implement API call to fetch expenses
     return [];
   }
@@ -20,6 +21,7 @@ export class ExpenseService {
    * @returns Promise with the expense details
    */
   async getExpenseById(id: string): Promise<Expense | null> {
+    console.log('Fetching expense with ID:', id);
     // TODO: Implement API call to fetch single expense
     return null;
   }
@@ -30,6 +32,7 @@ export class ExpenseService {
    * @returns Promise with the created expense
    */
   async createExpense(expense: Omit<Expense, 'id' | 'createdAt' | 'updatedAt'>): Promise<Expense> {
+    console.log('Creating new expense:', expense);
     // TODO: Implement API call to create expense
     return {} as Expense;
   }
@@ -41,6 +44,7 @@ export class ExpenseService {
    * @returns Promise with the updated expense
    */
   async updateExpense(id: string, expense: Partial<Expense>): Promise<Expense> {
+    console.log('Updating expense:', { id, expense });
     // TODO: Implement API call to update expense
     return {} as Expense;
   }
@@ -51,6 +55,7 @@ export class ExpenseService {
    * @returns Promise indicating success
    */
   async deleteExpense(id: string): Promise<void> {
+    console.log('Deleting expense with ID:', id);
     // TODO: Implement API call to delete expense
   }
 
@@ -60,6 +65,7 @@ export class ExpenseService {
    * @returns Promise with the expense summary
    */
   async getExpenseSummary(filters?: ExpenseFilters): Promise<ExpenseSummary> {
+    console.log('Fetching expense summary with filters:', filters);
     // TODO: Implement API call to fetch expense summary
     return {
       totalExpenses: 0,

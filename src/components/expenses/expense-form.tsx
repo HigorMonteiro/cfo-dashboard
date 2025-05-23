@@ -47,10 +47,11 @@ export function ExpenseForm({ expense, open, onClose, onSubmit }: ExpenseFormPro
         description: `Expense ${expense ? 'updated' : 'created'} successfully`,
       });
       onClose();
-    } catch (error) {
+    } catch (err) {
+      console.error('Error submitting expense:', err);
       toast({
         title: 'Error',
-        description: `Failed to ${expense ? 'update' : 'create'} expense`,
+        description: `Failed to ${expense ? 'update' : 'create'} expense: ${err instanceof Error ? err.message : 'Unknown error'}`,
         variant: 'destructive',
       });
     } finally {

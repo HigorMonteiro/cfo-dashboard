@@ -1,7 +1,5 @@
 "use client";
 
-import { ProtectedRoute } from "@/components/ProtectedRoute";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import AppAreaChart from "@/components/AppAreaChart";
 import AppBarChart from "@/components/AppBarChart";
 import AppPieChart from "@/components/AppPieChart";
