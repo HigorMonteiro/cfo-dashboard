@@ -20,12 +20,11 @@ import { Eye, EyeOff } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { authService } from "@/services/auth.service";
-import Image from "next/image";
-import Logo from 'public/logo.svg';
+import LoginSVG from "@/components/LoginSVG";
 
 /**
  * Login page component that handles user authentication
- * Shows a local illustration if available, otherwise fetches a random finance illustration from Unsplash.
+ * Shows a login illustration using the LoginSVG component.
  * Implements form validation using zod and react-hook-form.
  * @returns {JSX.Element} Login page component
  */
@@ -41,16 +40,6 @@ export default function LoginPage() {
       password: "",
     },
   });
-
-  // State to handle image fallback
-  const [imgSrc, setImgSrc] = useState("/image-01.png");
-
-  /**
-   * Handles image loading error by setting a random finance illustration from Unsplash.
-   */
-  const handleImgError = () => {
-    setImgSrc("https://source.unsplash.com/featured/300x300?finance,money,accounting");
-  };
 
   /**
    * Handles form submission
@@ -72,108 +61,106 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="flex min-h-screen w-full items-center justify-center bg-background p-4">
-      <div className="flex w-full max-w-4xl rounded-lg shadow-lg bg-white overflow-hidden">
-        {/* Illustration Section */}
-        <div className="hidden md:flex flex-col justify-center items-center bg-muted p-8 w-1/2">
-          <img
-            src={imgSrc}
-            alt="Finance Illustration"
-            className="max-w-xs w-full h-auto object-contain"
-            width={300}
-            height={300}
-            onError={handleImgError}
-            data-testid="finance-illustration"
-          />
-          <h2 className="mt-6 text-2xl font-semibold text-primary text-center">
-            Manage your finances with ease
-          </h2>
+    <div className="relative min-h-screen w-full bg-background">
+      {/* SVG Illustration - Bottom Left Corner (Hidden on Mobile) */}
+      <div className="hidden md:block absolute -bottom-8 -left-8 w-[45%] h-[45%] z-0">
+        <div className="relative w-full h-full">
+          <LoginSVG />
         </div>
-        {/* Login Form Section */}
-        <div className="flex flex-col justify-center items-center w-full md:w-1/2 p-8">
-          <Card className="w-full max-w-md shadow-none border-0">
-            <CardHeader className="space-y-2 text-center">
-              <CardTitle className="text-3xl font-bold">Welcome back</CardTitle>
-              <CardDescription>
-                Enter your email and password to login to your account
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <Form {...form}>
-                <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-                  <FormField
-                    control={form.control}
-                    name="email"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Email</FormLabel>
-                        <FormControl>
+      </div>
+
+      {/* Login Form - Centered with Glass Effect */}
+      <div className="flex min-h-screen items-center justify-center p-4">
+        <Card className="w-full max-w-md shadow-xl backdrop-blur-sm bg-white/90 border border-white/20">
+          <CardHeader className="space-y-2 text-center">
+            <CardTitle className="text-3xl font-bold bg-gradient-to-r from-primary to-primary/80 bg-clip-text text-transparent">
+              Welcome back
+            </CardTitle>
+            <CardDescription className="text-muted-foreground">
+              Enter your email and password to login to your account
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <Form {...form}>
+              <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+                <FormField
+                  control={form.control}
+                  name="email"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Email</FormLabel>
+                      <FormControl>
+                        <Input
+                          type="email"
+                          placeholder="Enter your email"
+                          {...field}
+                          disabled={isLoading}
+                          className="bg-white/50"
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="password"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Password</FormLabel>
+                      <FormControl>
+                        <div className="relative">
                           <Input
-                            type="email"
-                            placeholder="Enter your email"
+                            type={showPassword ? "text" : "password"}
+                            placeholder="Enter your password"
                             {...field}
                             disabled={isLoading}
+                            className="bg-white/50"
                           />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                  <FormField
-                    control={form.control}
-                    name="password"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Password</FormLabel>
-                        <FormControl>
-                          <div className="relative">
-                            <Input
-                              type={showPassword ? "text" : "password"}
-                              placeholder="Enter your password"
-                              {...field}
-                              disabled={isLoading}
-                            />
-                            <Button
-                              type="button"
-                              variant="ghost"
-                              size="icon"
-                              className="absolute right-2 top-1/2 -translate-y-1/2"
-                              onClick={() => setShowPassword(!showPassword)}
-                            >
-                              {showPassword ? (
-                                <EyeOff className="h-4 w-4" />
-                              ) : (
-                                <Eye className="h-4 w-4" />
-                              )}
-                            </Button>
-                          </div>
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                  <div className="flex items-center justify-between">
-                    <Link
-                      href="/forgot-password"
-                      className="text-sm text-muted-foreground hover:text-primary"
-                    >
-                      Forgot password?
-                    </Link>
-                    <Link
-                      href="/register"
-                      className="text-sm text-muted-foreground hover:text-primary"
-                    >
-                      Don&apos;t have an account?
-                    </Link>
-                  </div>
-                  <Button type="submit" className="w-full" disabled={isLoading}>
-                    {isLoading ? "Logging in..." : "Login"}
-                  </Button>
-                </form>
-              </Form>
-            </CardContent>
-          </Card>
-        </div>
+                          <Button
+                            type="button"
+                            variant="ghost"
+                            size="icon"
+                            className="absolute right-2 top-1/2 -translate-y-1/2"
+                            onClick={() => setShowPassword(!showPassword)}
+                          >
+                            {showPassword ? (
+                              <EyeOff className="h-4 w-4" />
+                            ) : (
+                              <Eye className="h-4 w-4" />
+                            )}
+                          </Button>
+                        </div>
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <div className="flex items-center justify-between">
+                  <Link
+                    href="/forgot-password"
+                    className="text-sm text-muted-foreground hover:text-primary transition-colors"
+                  >
+                    Forgot password?
+                  </Link>
+                  <Link
+                    href="/register"
+                    className="text-sm text-muted-foreground hover:text-primary transition-colors"
+                  >
+                    Don&apos;t have an account?
+                  </Link>
+                </div>
+                <Button 
+                  type="submit" 
+                  className="w-full bg-gradient-to-r from-primary to-primary/80 hover:from-primary/90 hover:to-primary/70 transition-all" 
+                  disabled={isLoading}
+                >
+                  {isLoading ? "Logging in..." : "Login"}
+                </Button>
+              </form>
+            </Form>
+          </CardContent>
+        </Card>
       </div>
     </div>
   );
