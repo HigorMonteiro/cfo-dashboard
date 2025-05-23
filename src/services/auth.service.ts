@@ -131,25 +131,38 @@ export class AuthService {
   }
 
   /**
-   * Handles user logout
+   * Handles user logout process
+   * @returns {Promise<boolean>} Success status of the logout operation
+   * @throws {Error} If logout process fails
    */
-  public logout(): void {
+  public async logout(): Promise<boolean> {
     try {
+      // Clear token from memory
       this.token = null;
+
       if (typeof window !== 'undefined') {
         // Clear localStorage
         localStorage.removeItem("access_token");
         localStorage.removeItem("refresh_token");
         localStorage.removeItem("user");
 
-        // Clear cookies
-        Cookies.remove('access_token');
-        Cookies.remove('refresh_token');
+        // Clear cookies with secure options
+        Cookies.remove('access_token', {
+          secure: process.env.NODE_ENV === 'production',
+          sameSite: 'strict'
+        });
+        Cookies.remove('refresh_token', {
+          secure: process.env.NODE_ENV === 'production',
+          sameSite: 'strict'
+        });
       }
+
       toast.success("Logged out successfully");
+      return true;
     } catch (error) {
       console.error("Logout error:", error);
       toast.error("Error during logout");
+      throw new Error('Failed to logout');
     }
   }
 
