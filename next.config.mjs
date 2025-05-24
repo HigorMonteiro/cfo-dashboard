@@ -1,6 +1,5 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  /* config options here */
   images: {
     remotePatterns: [
       {
@@ -9,11 +8,13 @@ const nextConfig = {
       }
     ]
   },
-  // Adicionar configurações importantes para o Vercel
-  output: 'standalone',
   experimental: {
     serverActions: true,
   },
+  distDir: '.next',
+  poweredByHeader: false,
+  reactStrictMode: true,
+  swcMinify: true,
 };
 
 export default nextConfig; 
