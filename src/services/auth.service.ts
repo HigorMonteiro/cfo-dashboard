@@ -42,9 +42,9 @@ export class AuthService {
   /**
    * Handles user login process
    * @param {LoginDTO} credentials - User login credentials
-   * @returns {Promise<boolean>} Success status
+   * @returns {Promise<{ access: string; refresh: string }>} Access and refresh tokens
    */
-  public async login(credentials: LoginDTO): Promise<boolean> {
+  public async login(credentials: LoginDTO): Promise<{ access: string; refresh: string }> {
     try {
       const response = await fetch(`${api.baseURL}/token/`, {
         method: 'POST',
@@ -80,7 +80,7 @@ export class AuthService {
       }
 
       toast.success("Login successful!");
-      return true;
+      return { access: data.access, refresh: data.refresh };
     } catch (error) {
       console.error("Login error:", error);
       
@@ -96,7 +96,7 @@ export class AuthService {
         toast.error("An unexpected error occurred");
       }
       
-      return false;
+      throw error;
     }
   }
 

@@ -11,8 +11,14 @@ class SubscriptionService {
    * @returns Promise with subscription details
    */
   async getUserSubscription(userId: string): Promise<Subscription> {
-    const response = await api.get(`/subscriptions/${userId}`);
-    return response.data;
+    const response = await fetch(`${api.baseURL}/subscriptions/${userId}`, {
+      headers: api.headers,
+    });
+    if (!response.ok) {
+      throw new Error('Failed to fetch subscription');
+    }
+    const data = await response.json();
+    return data;
   }
 
   /**
@@ -22,11 +28,16 @@ class SubscriptionService {
    * @returns Promise with created subscription details
    */
   async createSubscription(userId: string, planId: string): Promise<Subscription> {
-    const response = await api.post('/subscriptions', {
-      userId,
-      planId,
+    const response = await fetch(`${api.baseURL}/subscriptions`, {
+      method: 'POST',
+      headers: api.headers,
+      body: JSON.stringify({ userId, planId }),
     });
-    return response.data;
+    if (!response.ok) {
+      throw new Error('Failed to create subscription');
+    }
+    const data = await response.json();
+    return data;
   }
 
   /**
@@ -39,10 +50,16 @@ class SubscriptionService {
     subscriptionId: string,
     status: SubscriptionStatus
   ): Promise<Subscription> {
-    const response = await api.patch(`/subscriptions/${subscriptionId}/status`, {
-      status,
+    const response = await fetch(`${api.baseURL}/subscriptions/${subscriptionId}/status`, {
+      method: 'PATCH',
+      headers: api.headers,
+      body: JSON.stringify({ status }),
     });
-    return response.data;
+    if (!response.ok) {
+      throw new Error('Failed to update subscription status');
+    }
+    const data = await response.json();
+    return data;
   }
 
   /**

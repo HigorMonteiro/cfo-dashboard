@@ -38,12 +38,12 @@ export function ProtectedRoute({
   }
 
   // Admin users have full access
-  if (user?.role === UserRole.ADMIN) {
+  if (user.data?.role === UserRole.ADMIN) {
     return <>{children}</>;
   }
 
   // If admin access is required but user is not admin
-  if (requireAdmin && user?.role !== UserRole.ADMIN) {
+  if (requireAdmin && user.data?.role !== UserRole.ADMIN) {
     return (
       <div className="flex items-center justify-center p-8">
         <div className="text-center">

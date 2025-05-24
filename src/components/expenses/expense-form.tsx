@@ -4,10 +4,9 @@ import { useState } from 'react';
 import { Expense, ExpenseCategory, PaymentMethod } from '@/types/expense';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Select } from '@/components/ui/select';
-import { DatePicker } from '@/components/ui/date-picker';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
-import { useToast } from '@/components/ui/use-toast';
+import { useToast } from '@/hooks/use-toast';
 
 interface ExpenseFormProps {
   expense?: Expense;
@@ -70,9 +69,10 @@ export function ExpenseForm({ expense, open, onClose, onSubmit }: ExpenseFormPro
           <div className="grid grid-cols-2 gap-4">
             <div className="space-y-2">
               <label>Date</label>
-              <DatePicker
-                value={formData.date}
-                onChange={(date) => setFormData({ ...formData, date })}
+              <Input
+                type="date"
+                value={formData.date ? new Date(formData.date).toISOString().split('T')[0] : ''}
+                onChange={(e) => setFormData({ ...formData, date: new Date(e.target.value) })}
               />
             </div>
 
@@ -80,19 +80,23 @@ export function ExpenseForm({ expense, open, onClose, onSubmit }: ExpenseFormPro
               <label>Category</label>
               <Select
                 value={formData.category}
-                onChange={(value) => setFormData({ ...formData, category: value as ExpenseCategory })}
-                options={[
-                  { value: 'SHOPPING', label: 'Shopping' },
-                  { value: 'TRANSPORT', label: 'Transport' },
-                  { value: 'FEES', label: 'Fees' },
-                  { value: 'LOAN', label: 'Loan' },
-                  { value: 'FOOD', label: 'Food' },
-                  { value: 'ENTERTAINMENT', label: 'Entertainment' },
-                  { value: 'HEALTH', label: 'Health' },
-                  { value: 'EDUCATION', label: 'Education' },
-                  { value: 'OTHER', label: 'Other' },
-                ]}
-              />
+                onValueChange={(value) => setFormData({ ...formData, category: value as ExpenseCategory })}
+              >
+                <SelectTrigger>
+                  <SelectValue placeholder="Category" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="SHOPPING">Shopping</SelectItem>
+                  <SelectItem value="TRANSPORT">Transport</SelectItem>
+                  <SelectItem value="FEES">Fees</SelectItem>
+                  <SelectItem value="LOAN">Loan</SelectItem>
+                  <SelectItem value="FOOD">Food</SelectItem>
+                  <SelectItem value="ENTERTAINMENT">Entertainment</SelectItem>
+                  <SelectItem value="HEALTH">Health</SelectItem>
+                  <SelectItem value="EDUCATION">Education</SelectItem>
+                  <SelectItem value="OTHER">Other</SelectItem>
+                </SelectContent>
+              </Select>
             </div>
           </div>
 
@@ -120,14 +124,18 @@ export function ExpenseForm({ expense, open, onClose, onSubmit }: ExpenseFormPro
               <label>Payment Method</label>
               <Select
                 value={formData.paymentMethod}
-                onChange={(value) => setFormData({ ...formData, paymentMethod: value as PaymentMethod })}
-                options={[
-                  { value: 'CREDIT_CARD', label: 'Credit Card' },
-                  { value: 'DEBIT_CARD', label: 'Debit Card' },
-                  { value: 'PIX', label: 'PIX' },
-                  { value: 'BANK_SLIP', label: 'Bank Slip' },
-                ]}
-              />
+                onValueChange={(value) => setFormData({ ...formData, paymentMethod: value as PaymentMethod })}
+              >
+                <SelectTrigger>
+                  <SelectValue placeholder="Payment Method" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="CREDIT_CARD">Credit Card</SelectItem>
+                  <SelectItem value="DEBIT_CARD">Debit Card</SelectItem>
+                  <SelectItem value="PIX">PIX</SelectItem>
+                  <SelectItem value="BANK_SLIP">Bank Slip</SelectItem>
+                </SelectContent>
+              </Select>
             </div>
           </div>
 
@@ -142,8 +150,8 @@ export function ExpenseForm({ expense, open, onClose, onSubmit }: ExpenseFormPro
                     setFormData({
                       ...formData,
                       installment: {
-                        ...formData.installment,
                         current: Number(e.target.value),
+                        total: formData.installment?.total ?? 1,
                       },
                     })
                   }
@@ -160,7 +168,7 @@ export function ExpenseForm({ expense, open, onClose, onSubmit }: ExpenseFormPro
                     setFormData({
                       ...formData,
                       installment: {
-                        ...formData.installment,
+                        current: formData.installment?.current ?? 1,
                         total: Number(e.target.value),
                       },
                     })

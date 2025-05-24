@@ -33,7 +33,7 @@ const safeStorage = {
 export function useAuth() {
   const queryClient = useQueryClient();
 
-  const login = useMutation({
+  const login = useMutation<{ access: string; refresh: string }, Error, LoginDTO>({
     mutationFn: (credentials: LoginDTO) => authService.login(credentials),
     onSuccess: (data) => {
       // Store tokens using safe storage

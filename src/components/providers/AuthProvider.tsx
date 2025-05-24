@@ -1,7 +1,6 @@
-
 import { createContext, useContext, ReactNode } from 'react';
 import { useAuth } from '@/hooks/useAuth';
-import { LoginDTO } from '@/types/auth';
+import { LoginDTO, UserDTO } from '@/types/auth';
 
 interface AuthContextType {
   login: (credentials: LoginDTO) => Promise<void>;
@@ -20,8 +19,12 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 export function AuthProvider({ children }: { children: ReactNode }) {
   const auth = useAuth();
 
+  const handleLogin = async (credentials: LoginDTO) => {
+    await auth.login.mutateAsync(credentials);
+  };
+
   return (
-    <AuthContext.Provider value={auth}>
+    <AuthContext.Provider value={{ login: handleLogin, logout: auth.logout, user: auth.user.data ?? undefined, isAuthenticated: auth.isAuthenticated }}>
       {children}
     </AuthContext.Provider>
   );

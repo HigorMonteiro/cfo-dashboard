@@ -1,4 +1,4 @@
-import { Expense, ExpenseFilters, ExpenseSummary } from '@/types/expense';
+import { Expense, ExpenseFilters, ExpenseSummary, ExpenseCategory, PaymentMethod } from '@/types/expense';
 
 /**
  * Service responsible for handling expense-related operations
@@ -67,12 +67,31 @@ export class ExpenseService {
   async getExpenseSummary(filters?: ExpenseFilters): Promise<ExpenseSummary> {
     console.log('Fetching expense summary with filters:', filters);
     // TODO: Implement API call to fetch expense summary
+    const initialExpensesByCategory: Record<ExpenseCategory, number> = {
+      SHOPPING: 0,
+      TRANSPORT: 0,
+      FEES: 0,
+      LOAN: 0,
+      FOOD: 0,
+      ENTERTAINMENT: 0,
+      HEALTH: 0,
+      EDUCATION: 0,
+      OTHER: 0,
+    };
+
+    const initialExpensesByPaymentMethod: Record<PaymentMethod, number> = {
+      CREDIT_CARD: 0,
+      DEBIT_CARD: 0,
+      PIX: 0,
+      BANK_SLIP: 0,
+    };
+
     return {
       totalExpenses: 0,
       totalInstallments: 0,
-      expensesByCategory: {},
+      expensesByCategory: initialExpensesByCategory,
       expensesByLocation: {},
-      expensesByPaymentMethod: {},
+      expensesByPaymentMethod: initialExpensesByPaymentMethod,
       expensesByCreditCard: {},
       expensesByInstallment: {},
     };

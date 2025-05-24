@@ -1,6 +1,7 @@
 import { authService } from "@/services/auth.service";
 import { LoginDTO, User } from "@/types/auth";
 import { toast } from "sonner";
+import { queryClient } from "@/lib/queryClient";
 
 /**
  * Authentication handler for managing login operations
@@ -15,22 +16,15 @@ export class AuthHandler {
     try {
       const response = await authService.login(credentials);
       
-      if (response.success) {
-        // Store tokens
-        localStorage.setItem("access_token", response.access);
-        localStorage.setItem("refresh_token", response.refresh);
-        
-        // Store user data
-        if (response.user) {
-          localStorage.setItem("user", JSON.stringify(response.user));
-        }
-
-        toast.success("Login successful!");
-        return true;
-      } else {
-        toast.error(response.message || "Login failed");
-        return false;
-      }
+      // Store tokens
+      localStorage.setItem("access_token", response.access);
+      localStorage.setItem("refresh_token", response.refresh);
+      
+      // Invalidate user-related queries
+      queryClient.invalidateQueries({ queryKey: ['user'] });
+      
+      toast.success("Login successful!");
+      return true;
     } catch (error) {
       console.error("Login error:", error);
       

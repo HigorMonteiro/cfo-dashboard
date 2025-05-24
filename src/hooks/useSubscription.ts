@@ -12,14 +12,14 @@ export function useSubscription() {
   const { user } = useAuth();
 
   const subscription = useQuery({
-    queryKey: ['subscription', user?.id],
-    queryFn: () => subscriptionService.getUserSubscription(user!.id),
-    enabled: !!user?.id,
+    queryKey: ['subscription', user.data?.id],
+    queryFn: () => subscriptionService.getUserSubscription(user.data!.id),
+    enabled: !!user.data?.id,
   });
 
   const createSubscription = useMutation({
     mutationFn: ({ planId }: { planId: string }) =>
-      subscriptionService.createSubscription(user!.id, planId),
+      subscriptionService.createSubscription(user.data!.id, planId),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['subscription'] });
     },
@@ -34,9 +34,9 @@ export function useSubscription() {
   });
 
   const hasActiveSubscription = useQuery({
-    queryKey: ['hasActiveSubscription', user?.id],
-    queryFn: () => subscriptionService.hasActiveSubscription(user!.id),
-    enabled: !!user?.id,
+    queryKey: ['hasActiveSubscription', user.data?.id],
+    queryFn: () => subscriptionService.hasActiveSubscription(user.data!.id),
+    enabled: !!user.data?.id,
   });
 
   return {

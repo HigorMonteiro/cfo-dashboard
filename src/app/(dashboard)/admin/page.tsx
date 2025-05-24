@@ -2,7 +2,6 @@
 
 import { ProtectedRoute } from "@/components/ProtectedRoute";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { useAuth } from "@/hooks/useAuth";
 
 /**
  * Admin dashboard page component
@@ -10,7 +9,6 @@ import { useAuth } from "@/hooks/useAuth";
  * @returns {JSX.Element} Admin dashboard page component
  */
 export default function AdminPage() {
-  const { user } = useAuth();
 
   return (
     <ProtectedRoute requireAdmin>
@@ -24,7 +22,7 @@ export default function AdminPage() {
             </CardHeader>
             <CardContent>
               <p className="text-muted-foreground">
-                Welcome to the admin dashboard
+                Welcome to the admin dashboard!
               </p>
             </CardContent>
           </Card>

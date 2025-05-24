@@ -1,12 +1,12 @@
 'use client';
 
 import { useState } from 'react';
-import { Expense, ExpenseFilters } from '@/types/expense';
+import { Expense, ExpenseFilters, ExpenseCategory, PaymentMethod } from '@/types/expense';
 import { ExpenseService } from '@/services/expense.service';
 import { DataTable } from '@/components/ui/data-table';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Select } from '@/components/ui/select';
+import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from '@/components/ui/select';
 import { Card } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { PieChart, BarChart } from '@/components/ui/charts';
@@ -80,14 +80,33 @@ export default function ExpensesPage() {
             placeholder="Search expenses..."
             onChange={(e) => handleFilterChange({ ...filters, search: e.target.value })}
           />
-          <Select
-            placeholder="Category"
-            onChange={(value) => handleFilterChange({ ...filters, category: value })}
-          />
-          <Select
-            placeholder="Payment Method"
-            onChange={(value) => handleFilterChange({ ...filters, paymentMethod: value })}
-          />
+          <Select onValueChange={(value: ExpenseCategory) => handleFilterChange({ ...filters, category: value })}>
+            <SelectTrigger>
+              <SelectValue placeholder="Category" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="SHOPPING">Shopping</SelectItem>
+              <SelectItem value="TRANSPORT">Transport</SelectItem>
+              <SelectItem value="FEES">Fees</SelectItem>
+              <SelectItem value="LOAN">Loan</SelectItem>
+              <SelectItem value="FOOD">Food</SelectItem>
+              <SelectItem value="ENTERTAINMENT">Entertainment</SelectItem>
+              <SelectItem value="HEALTH">Health</SelectItem>
+              <SelectItem value="EDUCATION">Education</SelectItem>
+              <SelectItem value="OTHER">Other</SelectItem>
+            </SelectContent>
+          </Select>
+          <Select onValueChange={(value: PaymentMethod) => handleFilterChange({ ...filters, paymentMethod: value })}>
+            <SelectTrigger>
+              <SelectValue placeholder="Payment Method" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="CREDIT_CARD">Credit Card</SelectItem>
+              <SelectItem value="DEBIT_CARD">Debit Card</SelectItem>
+              <SelectItem value="PIX">PIX</SelectItem>
+              <SelectItem value="BANK_SLIP">Bank Slip</SelectItem>
+            </SelectContent>
+          </Select>
         </div>
 
         <Tabs defaultValue="list">
