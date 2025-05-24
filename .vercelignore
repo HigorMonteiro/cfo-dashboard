@@ -1,14 +1,11 @@
 .git
-.github
 node_modules
 .next
-.env
-.env.*
+.env*
 !.env.example
 README.md
-*.log
 .DS_Store
+*.log
 coverage
-.idea
 .vscode
-.vercel 
+.idea 
