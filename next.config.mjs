@@ -8,11 +8,9 @@ const nextConfig = {
       }
     ]
   },
-  output: 'standalone',
-  distDir: '.next',
-  poweredByHeader: false,
-  reactStrictMode: true,
-  swcMinify: true,
+  experimental: {
+    serverActions: true,
+  }
 };
 
 export default nextConfig; 
