@@ -8,9 +8,6 @@ const nextConfig = {
       }
     ]
   },
-  experimental: {
-    serverActions: true,
-  },
   distDir: '.next',
   poweredByHeader: false,
   reactStrictMode: true,
